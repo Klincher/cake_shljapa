@@ -13,6 +13,12 @@ use App\Controller\AppController;
  */
 class ArticlesController extends AppController
 {
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->loadComponent('Flash'); // Include the FlashComponent
+    }
     /**
      * Index method
      *
@@ -53,7 +59,7 @@ class ArticlesController extends AppController
             }
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
-        $this->set(compact('article'));
+        $this->set('article', $article);
     }
 
     /**
