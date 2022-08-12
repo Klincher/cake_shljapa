@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -107,5 +108,31 @@ class CategoriesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function moveUp($id = null)
+    {
+        $this->request->allowMethod(['post', 'put']);
+        $category = $this->Categories->get($id);
+        if ($this->Categories->moveUp($category)) {
+            $this->Flash->success('Категория была перемещена вверх.');
+        } else {
+            $this->Flash->error('Категория не может быть перемещена вверх.
+                                                    Пожалуйста, попробуйте еще раз.');
+        }
+        return $this->redirect($this->referer(['action' => 'index']));
+    }
+
+    public function moveDown($id = null)
+    {
+        $this->request->allowMethod(['post', 'put']);
+        $category = $this->Categories->get($id);
+        if ($this->Categories->moveDown($category)) {
+            $this->Flash->success('Категория была перемещена вниз.');
+        } else {
+            $this->Flash->error('Категория не может быть перемещена вниз.
+                                                    Пожалуйста, попробуйте еще раз.');
+        }
+        return $this->redirect($this->referer(['action' => 'index']));
     }
 }
