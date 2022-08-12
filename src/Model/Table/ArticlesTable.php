@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -48,17 +49,10 @@ class ArticlesTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->nonNegativeInteger('id')
-            ->allowEmptyString('id', null, 'create');
-
-        $validator
-            ->scalar('title')
-            ->maxLength('title', 50)
-            ->allowEmptyString('title');
-
-        $validator
-            ->scalar('body')
-            ->allowEmptyString('body');
+            ->notEmpty('title')
+            ->requirePresence('title')
+            ->notEmpty('body')
+            ->requirePresence('body');
 
         return $validator;
     }
