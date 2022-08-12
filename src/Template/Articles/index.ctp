@@ -5,6 +5,7 @@
         <th>Id</th>
         <th>Заголовок</th>
         <th>Дата создания</th>
+        <th>Action</th>
     </tr>
 
     <!-- Здесь мы проходимся в цикле по объекту запроса $articles, выводя данные статьи -->
@@ -17,6 +18,9 @@
             </td>
             <td>
                 <?= $article->created->format(DATE_RFC850) ?>
+            </td>
+            <td>
+                <?= $this->Html->link('Изменить', ['action' => 'edit', $article->id]) ?>
             </td>
         </tr>
     <?php endforeach; ?>

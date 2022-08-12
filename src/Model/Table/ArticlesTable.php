@@ -49,10 +49,17 @@ class ArticlesTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->notEmpty('title')
-            ->requirePresence('title')
-            ->notEmpty('body')
-            ->requirePresence('body');
+            ->nonNegativeInteger('id')
+            ->allowEmptyString('id', null, 'create');
+
+        $validator
+            ->scalar('title')
+            ->maxLength('title', 50)
+            ->allowEmptyString('title');
+
+        $validator
+            ->scalar('body')
+            ->allowEmptyString('body');
 
         return $validator;
     }
