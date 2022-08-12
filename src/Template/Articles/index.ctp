@@ -20,6 +20,12 @@
                 <?= $article->created->format(DATE_RFC850) ?>
             </td>
             <td>
+                <?= $this->Form->postLink(
+                    'Удалить',
+                    ['action' => 'delete', $article->id],
+                    ['confirm' => 'Вы уверены?']
+                )
+                ?>
                 <?= $this->Html->link('Изменить', ['action' => 'edit', $article->id]) ?>
             </td>
         </tr>

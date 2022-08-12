@@ -98,7 +98,7 @@ class ArticlesController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $article = $this->Articles->get($id);
         if ($this->Articles->delete($article)) {
-            $this->Flash->success(__('The article has been deleted.'));
+            $this->Flash->success(__('Статья с id: {0} была удалена.', h($id)));
         } else {
             $this->Flash->error(__('The article could not be deleted. Please, try again.'));
         }
