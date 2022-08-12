@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -19,9 +20,7 @@ class ArticlesController extends AppController
      */
     public function index()
     {
-        $articles = $this->Articles->find('all');
-
-        $this->set(compact('articles'));
+        $this->set('articles', $this->Articles->find('all'));
     }
 
     /**
@@ -33,11 +32,8 @@ class ArticlesController extends AppController
      */
     public function view($id = null)
     {
-        $article = $this->Articles->get($id, [
-            'contain' => [],
-        ]);
-
-        $this->set('article', $article);
+        $article = $this->Articles->get($id);
+        $this->set(compact('article'));
     }
 
     /**
