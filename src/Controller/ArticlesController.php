@@ -63,6 +63,9 @@ class ArticlesController extends AppController
 
         $categories = $this->Articles->Categories->find('treeList');
         $this->set(compact('categories'));
+
+        $categories = $this->Articles->Categories->find('treeList');
+        $this->set(compact('categories'));
     }
 
     /**
@@ -107,5 +110,26 @@ class ArticlesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function isAuthorized($user)
+    {
+        // Все зарегистрированные пользователи могут добавлять статьи
+        // До 3.4.0 $this->request->param('action') делали так.
+        if ($this->request->getParam('action') === 'add') {
+            return true;
+        }
+
+        // Владелец статьи может редактировать и удалять ее
+        // До 3.4.0 $this->request->param('action') делали так.
+        if (in_array($this->request->getParam('action'), ['edit', 'delete'])) {
+            // До 3.4.0 $this->request->params('pass.0') делали так.
+            $articleId = (int)$this->request->getParam('pass.0');
+            if ($this->Articles->isOwnedBy($articleId, $user['id'])) {
+                return true;
+            }
+        }
+
+        return parent::isAuthorized($user);
     }
 }
