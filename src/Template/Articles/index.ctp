@@ -31,3 +31,24 @@
         </tr>
     <?php endforeach; ?>
 </table>
+
+<div class="d-flex justify-content-end">
+    <button class="btn btn-primary">Test btn</button>
+</div>
+
+<table class="table">
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">title</th>
+            <th scope="col">body</th>
+            <th scope="col">created</th>
+        </tr>
+    <?php foreach ($articles as $article) : ?>
+        <tr>
+            <td><?= $article->id ?></td>
+            <td><?= $article->title ?></td>
+            <td><?= $article->body ?></td>
+            <td><?= $article->created ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
