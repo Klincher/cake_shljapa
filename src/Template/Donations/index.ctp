@@ -28,7 +28,7 @@
         <div class="card" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Total donations</h5>
-                <p class="card-text"></p>
+                <p class="card-text"><?php echo $sumDonations->sum ?></p>
             </div>
         </div>
 

@@ -23,10 +23,12 @@ class DonationsController extends AppController
     {
         $donations = $this->paginate($this->Donations);
 
-        $query = $this->Donations->find();
-        $biggestDonation = $query->select(['amount', 'donator_name'])->order(['amount' => 'DESC'])->first();
+        $biggestDonation = $this->Donations->find()->select(['amount', 'donator_name'])->order(['amount' => 'DESC'])->first();
 
-        $this->set(compact('donations', 'biggestDonation'));
+        $sumDonationsQuery = $this->Donations->find();
+        $sumDonations = $sumDonationsQuery->select(['sum' => $sumDonationsQuery->func()->sum('amount')])->first();
+
+        $this->set(compact('donations', 'biggestDonation', 'sumDonations'));
     }
 
     /**
