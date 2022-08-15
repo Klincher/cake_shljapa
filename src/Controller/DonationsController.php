@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Cake\ORM\Query;
 use App\Controller\AppController;
 
 /**
@@ -23,10 +24,9 @@ class DonationsController extends AppController
         $donations = $this->paginate($this->Donations);
 
         $query = $this->Donations->find();
-        $biggestDonation = $query->select(['amount' => $query->func()->max('amount')])->first();
-        $topDonator = $query->select(['donator_name' => $query->func()->max('donator_name')])->first();
+        $biggestDonation = $query->select(['amount', 'donator_name'])->order(['amount' => 'DESC'])->first();
 
-        $this->set(compact('donations', 'biggestDonation', 'topDonator'));
+        $this->set(compact('donations', 'biggestDonation'));
     }
 
     /**
