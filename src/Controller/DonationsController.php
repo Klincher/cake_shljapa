@@ -24,8 +24,9 @@ class DonationsController extends AppController
 
         $query = $this->Donations->find();
         $biggestDonation = $query->select(['amount' => $query->func()->max('amount')])->first();
+        $topDonator = $query->select(['donator_name' => $query->func()->max('donator_name')])->first();
 
-        $this->set(compact('donations', 'biggestDonation'));
+        $this->set(compact('donations', 'biggestDonation', 'topDonator'));
     }
 
     /**
