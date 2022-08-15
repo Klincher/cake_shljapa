@@ -13,21 +13,21 @@
 
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">Max donation</h5>
-                <p class="card-text"><?php echo $biggestDonation->amount ?></p>
+                <h5 class="card-title">Total donation for last month: </h5>
+                <p class="card-text"><?php echo $lastMonthDonations->sum ?></p>
             </div>
         </div>
 
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">Top donator</h5>
+                <h5 class="card-title">Top donator: </h5>
                 <p class="card-text"><?php echo $biggestDonation->donator_name ?></p>
             </div>
         </div>
 
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">Total donations</h5>
+                <h5 class="card-title">Total donations: </h5>
                 <p class="card-text"><?php echo $sumDonations->sum ?></p>
             </div>
         </div>

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Cake\ORM\Query;
 use App\Controller\AppController;
+use Cake\I18n\Time;
 
 /**
  * Donations Controller
@@ -23,12 +24,23 @@ class DonationsController extends AppController
     {
         $donations = $this->paginate($this->Donations);
 
+        //  $this->model->where('created_at', '>=', Carbon::now()->startOfMonth()->subMonthsNoOverflow())
+        //     ->where('created_at', '<=', Carbon::now()->subMonthsNoOverflow()->endOfMonth())
+        //     ->sum('amount');
+
+        $lastMonth = (new Time('first day of previous month'))->i18nFormat('yyyy-MM-dd');
+        $nextMonth = (new Time('last day of previous month'))->i18nFormat('yyyy-MM-dd');
+
+        $lastMonthDonations = $this->Donations->find();
+
+        $lastMonthDonations = $lastMonthDonations->select(['sum' => $lastMonthDonations->where(['created >=' => $lastMonth, 'created <=' => $nextMonth])->func()->sum('amount')])->first();
+
         $biggestDonation = $this->Donations->find()->select(['amount', 'donator_name'])->order(['amount' => 'DESC'])->first();
 
         $sumDonationsQuery = $this->Donations->find();
         $sumDonations = $sumDonationsQuery->select(['sum' => $sumDonationsQuery->func()->sum('amount')])->first();
 
-        $this->set(compact('donations', 'biggestDonation', 'sumDonations'));
+        $this->set(compact('donations', 'biggestDonation', 'sumDonations', 'lastMonthDonations'));
     }
 
     /**
