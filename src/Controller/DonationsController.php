@@ -24,16 +24,10 @@ class DonationsController extends AppController
     {
         $donations = $this->paginate($this->Donations);
 
-        //  $this->model->where('created_at', '>=', Carbon::now()->startOfMonth()->subMonthsNoOverflow())
-        //     ->where('created_at', '<=', Carbon::now()->subMonthsNoOverflow()->endOfMonth())
-        //     ->sum('amount');
-
         $lastMonth = (new Time('first day of previous month'))->i18nFormat('yyyy-MM-dd');
         $nextMonth = (new Time('last day of previous month'))->i18nFormat('yyyy-MM-dd');
-
-        $lastMonthDonations = $this->Donations->find();
-
-        $lastMonthDonations = $lastMonthDonations->select(['sum' => $lastMonthDonations->where(['created >=' => $lastMonth, 'created <=' => $nextMonth])->func()->sum('amount')])->first();
+        $lastMonthDonationsQuery = $this->Donations->find();
+        $lastMonthDonations = $lastMonthDonationsQuery->select(['sum' => $lastMonthDonationsQuery->where(['created >=' => $lastMonth, 'created <=' => $nextMonth])->func()->sum('amount')])->first();
 
         $biggestDonation = $this->Donations->find()->select(['amount', 'donator_name'])->order(['amount' => 'DESC'])->first();
 
