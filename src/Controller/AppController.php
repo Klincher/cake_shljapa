@@ -41,33 +41,33 @@ class AppController extends Controller
      */
     public function initialize()
     {
-        $this->loadComponent('Flash');
-        $this->loadComponent('Auth', [
-            'loginRedirect' => [
-                'controller' => 'Articles',
-                'action' => 'index'
-            ],
-            'logoutRedirect' => [
-                'controller' => 'Pages',
-                'action' => 'display',
-                'home'
-            ]
-        ]);
+        // $this->loadComponent('Flash');
+        // $this->loadComponent('Auth', [
+        //     'loginRedirect' => [
+        //         'controller' => 'Articles',
+        //         'action' => 'index'
+        //     ],
+        //     'logoutRedirect' => [
+        //         'controller' => 'Pages',
+        //         'action' => 'display',
+        //         'home'
+        //     ]
+        // ]);
     }
 
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['index', 'view', 'display']);
+        // $this->Auth->allow(['index', 'view', 'display']);
     }
 
-    public function isAuthorized($user)
-    {
-        // Администратор может получить доступ к каждому действию
-        if (isset($user['role']) && $user['role'] === 'admin') {
-            return true;
-        }
+    // public function isAuthorized($user)
+    // {
+    //     // Администратор может получить доступ к каждому действию
+    //     if (isset($user['role']) && $user['role'] === 'admin') {
+    //         return true;
+    //     }
 
-        // Иначе, запрещаем по умолчанию
-        return false;
-    }
+    //     // Иначе, запрещаем по умолчанию
+    //     return false;
+    // }
 }
