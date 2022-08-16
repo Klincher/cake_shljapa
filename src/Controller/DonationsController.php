@@ -64,11 +64,11 @@ class DonationsController extends AppController
         if ($this->request->is('post')) {
             $donation = $this->Donations->patchEntity($donation, $this->request->getData());
             if ($this->Donations->save($donation)) {
-                $this->Flash->success(__('The donation has been saved.'));
+                // $this->Flash->success(__('The donation has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The donation could not be saved. Please, try again.'));
+            // $this->Flash->error(__('The donation could not be saved. Please, try again.'));
         }
         $this->set(compact('donation'));
     }
