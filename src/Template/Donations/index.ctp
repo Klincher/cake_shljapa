@@ -5,38 +5,39 @@
  * @var \App\Model\Entity\Donation[]|\Cake\Collection\CollectionInterface $donations
  */
 ?>
-
-<button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#donationModal">New donation</button>
+<div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#donationModal">New donation</button>
+</div>
 
 <div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- <form action="(/donations/add)" method="post"> -->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="donationModalLabel">Donation form</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header">
+                <h5 class="modal-title" id="donationModalLabel">Donation form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="donations form large-9 medium-8 columns content">
+                    <?= $this->Form->create('donations', ['url' => ['action' => 'add']]) ?>
+                    <fieldset>
+                        <legend><?= __('Add Donation') ?></legend>
+                        <?php
+                        echo $this->Form->control('donator_name');
+                        echo $this->Form->control('email');
+                        echo $this->Form->control('amount');
+                        echo $this->Form->control('message');
+                        ?>
+                    </fieldset>
+                    <button type="submit" name="save" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <!-- <button type="submit" class="btn btn-primary" name="save">Save</button> -->
+                    <!-- <?= $this->Form->button(__('Submit')) ?> -->
+                    <?= $this->Form->end() ?>
                 </div>
-                <div class="modal-body">
-                    <div class="donations form large-9 medium-8 columns content">
-                        <?= $this->Form->create('donations', ['url' => ['action' => 'add']]) ?>
-                        <fieldset>
-                            <legend><?= __('Add Donation') ?></legend>
-                            <?php
-                            echo $this->Form->control('donator_name');
-                            echo $this->Form->control('email');
-                            echo $this->Form->control('amount');
-                            echo $this->Form->control('message');
-                            ?>
-                        </fieldset>
-                        <button type="submit" class="btn btn-primary" name="save">Save</button>
-                        <!-- <?= $this->Form->button(__('Submit')) ?> -->
-                        <?= $this->Form->end() ?>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" name="save" class="btn btn-primary">Save</button> -->
-                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
             <!-- </form> -->
         </div>
     </div>
@@ -117,44 +118,26 @@
     </div>
 </div>
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
+<?= $this->Html->scriptBlock(
+    "var chart = '" . json_encode($charts) . "'"
+);
+?>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     google.charts.load('current', {
         'packages': ['corechart']
     });
-    google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(function() {
+        drawChart(chart);
+    });
 
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Date', 'Donations'],
-            ['2004', 1000],
-            ['2005', 1170],
-            ['2006', 660],
-            ['2007', 1030]
-        ]);
+    function drawChart(chart) {
+        var charts = [
+            ['Date', 'Amount'],
+            ...JSON.parse(chart)
+        ];
+        var data = google.visualization.arrayToDataTable(charts);
 
         var options = {
             title: 'Donations Chart',

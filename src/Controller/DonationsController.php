@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use Cake\ORM\Query;
-use App\Controller\AppController;
 use Cake\I18n\Time;
+use Cake\ORM\Query;
+use Cake\ORM\TableRegistry;
+use App\Controller\AppController;
 
 /**
  * Donations Controller
@@ -34,7 +35,20 @@ class DonationsController extends AppController
         $sumDonationsQuery = $this->Donations->find();
         $sumDonations = $sumDonationsQuery->select(['sum' => $sumDonationsQuery->func()->sum('amount')])->first();
 
-        $this->set(compact('donations', 'biggestDonation', 'sumDonations', 'lastMonthDonations'));
+        $queryChart = $this->Donations->find();
+        $charts = $queryChart->select([
+            'date' => 'DATE(created)',
+            'amount' => $queryChart->func()->sum('amount')
+        ])
+            ->group('date')
+            ->order(['date' => 'ASC'])
+            ->all()
+            ->map(function ($row) {
+                return [$row->date, (int) $row->amount];
+            })
+            ->toArray();
+
+        $this->set(compact('donations', 'biggestDonation', 'sumDonations', 'lastMonthDonations', 'charts'));
     }
 
     /**
